@@ -17,7 +17,8 @@ class Poll(models.Model):
         return self.text
 
     def was_published_recently(self):
-        return self.publication_date >= timezone.now() - timedelta(days=1)
+        now = timezone.now()
+        return now - timedelta(days=1) <= self.publication_date <= now
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
