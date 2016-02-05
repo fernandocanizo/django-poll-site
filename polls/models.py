@@ -3,7 +3,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-class Question(models.Model):
+class Poll(models.Model):
     text = models.CharField(max_length=200)
     created_ts = models.DateTimeField()
     updated_ts = models.DateTimeField(null=True, default=None)
@@ -24,11 +24,11 @@ class Question(models.Model):
         if not self.id:
             self.created_ts = timezone.now()
             self.updated_ts = timezone.now()
-            return super(Question, self).save(*args, **kwargs)
+            return super(Poll, self).save(*args, **kwargs)
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
 

@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from .models import Question
+from .models import Poll, Choice
 
 
 def index(request):
-    latest_polls = Question.objects.order_by('-publication_date')[:5]
+    latest_polls = Poll.objects.order_by('-publication_date')[:5]
     context = {
         'latest_polls_list': latest_polls,
         }
@@ -12,7 +12,7 @@ def index(request):
 
 
 def detail(request, poll_id):
-    poll = get_object_or_404(Question, pk=poll_id)
+    poll = get_object_or_404(Poll, pk=poll_id)
 
     context = {
         'poll': poll,
