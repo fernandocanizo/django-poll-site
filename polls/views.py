@@ -1,12 +1,26 @@
 from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from .models import Question
 
 
 def index(request):
-    return HttpResponse("Latest polls...")
+    latest_polls = Question.objects.order_by('-publication_date')[:5]
+    context = {
+        'latest_polls_list': latest_polls,
+        }
+    return render(request, 'polls/index.html', context)
 
 
 def detail(request, poll_id):
-    return HttpResponse("Shows detailed view for poll {}".format(poll_id))
+    poll = get_object_or_404(Question, pk=poll_id)
+
+    context = {
+        'poll': poll,
+        }
+    return render(
+        request,
+        'polls/detail.html',
+        context)
 
 
 def show_polls_from(request, year, month=None, day=None):
