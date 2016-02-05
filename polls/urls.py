@@ -6,17 +6,17 @@ app_name = 'polls'
 urlpatterns = [
     url(
         r'^$',
-        views.index,
+        views.IndexView.as_view(),
         name='index'),
 
     url(
-        r'^(?P<poll_id>\d+)$',
-        views.detail,
+        r'^(?P<pk>\d+)$',
+        views.DetailView.as_view(),
         name='detail'),
 
     url(
-        r'^results/(?P<poll_id>\d+)$',
-        views.results,
+        r'^(?P<pk>\d+)/results$',
+        views.ResultsView.as_view(),
         name='results'),
 
     url(
