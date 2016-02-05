@@ -15,6 +15,11 @@ urlpatterns = [
         name='detail'),
 
     url(
+        r'^results/(?P<poll_id>\d+)$',
+        views.results,
+        name='results'),
+
+    url(
         r'^year/(?P<year>\d{4})$',
         views.show_polls_from,
         name='show_polls_from'),
@@ -31,7 +36,7 @@ urlpatterns = [
 
     # AJAX
     url(
-        r'^(?P<poll_id>\d+)/vote/choice/(?P<choice_id>\d+)$',
+        r'^(?P<poll_id>\d+)/vote$',
         views.ajax_vote,
         name="ajax_vote"),
     ]
