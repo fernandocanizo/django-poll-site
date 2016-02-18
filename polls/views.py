@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.db.models import F
+from django.utils import timezone
 from .models import Poll, Choice
 from poll_site.settings import LATEST_POLLS
 
@@ -13,12 +14,20 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Returns last published polls"""
-        return Poll.objects.order_by('-publication_date')[:LATEST_POLLS]
+        return Poll.objects.filter(
+            publication_date__lte=timezone.now()).order_by(
+            '-publication_date')[:LATEST_POLLS]
 
 
 class DetailView(generic.DetailView):
     model = Poll
     template_name = 'polls/detail.html'
+
+    def get_queryset(self):
+        """
+        Excludes polls with `publication_date` in the future.
+        """
+        return Poll.objects.filter(publication_date__lte=timezone.now())
 
 
 class ResultsView(generic.DetailView):
